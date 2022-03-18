@@ -8,4 +8,4 @@ class User(Base):
     username = Column(String(25),nullable=False,unique=True)
     email = Column(String(25),nullable=True,unique=True)
     hashed_password = Column(String(200), nullable=False)
-    user_settings = relationship("UserSearchSettings")
+    # user_settings = relationship("UserSearchSettings")
