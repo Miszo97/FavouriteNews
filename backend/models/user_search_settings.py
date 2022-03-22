@@ -1,6 +1,6 @@
 from sqlalchemy import Column,String,Integer,Enum
-from backend.enums import Category,Country,Language,Source
-from backend.database import Base
+from enums import Category,Country,Language,Source
+from database import Base
 from sqlalchemy.schema import ForeignKey
 
 class UserSearchSettings(Base):

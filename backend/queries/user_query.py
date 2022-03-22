@@ -1,6 +1,5 @@
-from backend.models.user import User
-from backend.database import SessionLocal
-from fastapi_sqlalchemy import db
+from models.user import User
+from sqlalchemy.orm import Session
 
 class UserQuery():
     def get_user_by_id(user_id):
