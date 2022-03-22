@@ -9,7 +9,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/code/
+      - ./backend:/code/
       
   database:
     image: postgres
