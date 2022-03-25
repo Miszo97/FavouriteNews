@@ -1,0 +1,33 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  # isort
+  - repo: https://github.com/asottile/seed-isort-config
+    rev: v1.9.3
+    hooks:
+      - id: seed-isort-config
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v4.3.21
+    hooks:
+      - id: isort
+
+  # black
+  - repo: https://github.com/psf/black
+    rev: 21.12b0
+    hooks:
+    - id: black
+
+  # flake8
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+        args:
+          - "--max-line-length=88"
+          - "--max-complexity=18"
+          - "--select=B,C,E,F,W,T4,B9"
