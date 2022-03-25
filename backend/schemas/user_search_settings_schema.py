@@ -1,8 +1,15 @@
-from pydantic import BaseModel
 from typing import Optional
+
+from enums import Category, Country, Language, Source
+from pydantic import BaseModel
+
 
 class UserSearchSettingsObject(BaseModel):
     id: Optional[int]
+    country: Country
+    category: Category
+    source: Source
+    language: Language
     user_id: int
 
     class Config:
