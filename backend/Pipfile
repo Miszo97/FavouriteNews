@@ -12,6 +12,7 @@ alembic = "*"
 pydantic = "*"
 requests = "*"
 fastapi-sqlalchemy = "*"
+python-dotenv = "*"
 
 [dev-packages]
 pre-commit = "*"
