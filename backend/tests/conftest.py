@@ -1,53 +1,64 @@
 import pytest
-from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
-from sqlalchemy_utils import create_database
-from sqlalchemy_utils import database_exists
-
-from database import Base
+import sqlalchemy as sa
 from app.main import app
+from database import Base
 from dependecies import get_db
+from fastapi.testclient import TestClient
 
-from queries.user_query import UserQuery
-from schemas.user_schema import UserObject
+# we need this import for Base.metadata
+from models.user import User  # noqa
+from models.user_search_settings import UserSearchSettings  # noqa
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import create_database, database_exists
 
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@database:5432/test"
 
-@pytest.fixture(scope="session")
-def db_engine():
-    engine = create_engine(SQLALCHEMY_DATABASE_URL)
-    if not database_exists:
-        create_database(engine.url)
+engine = sa.create_engine(SQLALCHEMY_DATABASE_URL)
 
-    Base.metadata.create_all(bind=engine)
-    yield engine
+if not database_exists(url=engine.url):
+    create_database(engine.url)
+
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Set up the database once
+Base.metadata.drop_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 
-@pytest.fixture(scope="function")
-def db(db_engine):
-    connection = db_engine.connect()
-
-    # begin a non-ORM transaction
+@pytest.fixture()
+def session():
+    connection = engine.connect()
     transaction = connection.begin()
+    session = TestingSessionLocal(bind=connection)
 
-    # bind an individual Session to the connection
-    db = Session(bind=connection)
-    # db = Session(db_engine)
+    # Begin a nested transaction (using SAVEPOINT).
+    nested = connection.begin_nested()
 
-    yield db
+    # If the application code calls session.commit, it will end the nested
+    # transaction. Need to start a new one when that happens.
+    @sa.event.listens_for(session, "after_transaction_end")
+    def end_savepoint(session, transaction):
+        nonlocal nested
+        if not nested.is_active:
+            nested = connection.begin_nested()
 
-    db.rollback()
+    yield session
+
+    # Rollback the overall transaction, restoring the state before the test ran.
+    session.close()
+    transaction.rollback()
     connection.close()
 
-@pytest.fixture(scope="function")
-def client(db):
-    app.dependency_overrides[get_db] = lambda: db
 
-    with TestClient(app) as c:
-        yield c
+# A fixture for the fastapi test client which depends on the
+# previous session fixture. Instead of creating a new session in the
+# dependency override as before, it uses the one provided by the
+# session fixture.
+@pytest.fixture()
+def client(session):
+    def override_get_db():
+        yield session
 
-@pytest.fixture(scope="session")
-def users(db):
-    UserQuery().create_user(db, UserObject(username="abc",email="abc@gmail",hashed_password="pass"))
-    UserQuery().create_user(db, UserObject(username="abc2",email="abc@gmail2",hashed_password="pass2"))
+    app.dependency_overrides[get_db] = override_get_db
+    yield TestClient(app)
+    del app.dependency_overrides[get_db]
