@@ -8,6 +8,11 @@ from fastapi.testclient import TestClient
 # we need this import for Base.metadata
 from models.user import User  # noqa
 from models.user_search_settings import UserSearchSettings  # noqa
+
+from queries.user_query import UserQuery
+from queries.user_serach_settings_query import UserSearchSettingsQuery
+from schemas.user_schema import UserObject
+from schemas.user_search_settings_schema import UserSearchSettingsObject
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
 
@@ -62,3 +67,73 @@ def client(session):
     app.dependency_overrides[get_db] = override_get_db
     yield TestClient(app)
     del app.dependency_overrides[get_db]
+
+
+@pytest.fixture()
+def create_user_instance(session):
+    new_user = UserObject(
+        username="Mike", email="mike@gmail.com", hashed_password="fb34jkfsdf", id=1
+    )
+    UserQuery().create_user(session, new_user)
+
+
+@pytest.fixture()
+def create_user_search_settings_instance(session):
+    new_settings = UserSearchSettingsObject(
+        country="Poland",
+        category="Sport News",
+        source="cnn",
+        language="French",
+        user_id=1,
+        id=1,
+    )
+    UserSearchSettingsQuery().create_user_search_settings(session, new_settings)
+
+
+@pytest.fixture()
+def create_multiple_user_instances(session):
+    new_user_one = UserObject(
+        username="Mike", email="mike@gmail.com", hashed_password="fb34jkfsdf", id=1
+    )
+    new_user_two = UserObject(
+        username="Bob", email="bob@gmail.com", hashed_password="sdsda4142", id=2
+    )
+    new_user_three = UserObject(
+        username="John", email="john@gmail.com", hashed_password="dgij314saf", id=3
+    )
+
+    UserQuery().create_user(session, new_user_one)
+    UserQuery().create_user(session, new_user_two)
+    UserQuery().create_user(session, new_user_three)
+
+
+@pytest.fixture()
+def create_multiple_users_search_settings_instance(session):
+    new_settings_one = UserSearchSettingsObject(
+        country="Poland",
+        category="Sport News",
+        source="cnn",
+        language="French",
+        user_id=1,
+        id=1,
+    )
+    new_settings_two = UserSearchSettingsObject(
+        country="France",
+        category="Health News",
+        source="bbc",
+        language="Portuguese",
+        user_id=2,
+        id=2,
+    )
+    new_settings_three = UserSearchSettingsObject(
+        country="India",
+        category="Sport News",
+        source="cnn",
+        language="Swedish",
+        user_id=3,
+        id=3,
+    )
+
+    UserSearchSettingsQuery().create_user_search_settings(session, new_settings_one)
+    UserSearchSettingsQuery().create_user_search_settings(session, new_settings_two)
+    UserSearchSettingsQuery().create_user_search_settings(session, new_settings_three)
