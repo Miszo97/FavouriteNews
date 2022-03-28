@@ -2,7 +2,7 @@ import pytest
 import sqlalchemy as sa
 from app.main import app
 from database import Base
-from dependecies import get_db
+from dependencies.database_session import get_db
 from fastapi.testclient import TestClient
 
 # we need this import for Base.metadata

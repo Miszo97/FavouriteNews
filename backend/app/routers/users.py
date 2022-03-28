@@ -1,18 +1,10 @@
-from fastapi import APIRouter
+from dependencies.current_user import get_current_user
+from fastapi import APIRouter, Depends
+from schemas.user_schema import UserObject
 
 router = APIRouter()
 
 
-@router.get("/users/", tags=["users"])
-async def read_users():
-    return [{"username": "Rick"}, {"username": "Morty"}]
-
-
-@router.get("/users/me", tags=["users"])
-async def read_user_me():
-    return {"username": "fakecurrentuser"}
-
-
-@router.get("/users/{username}", tags=["users"])
-async def read_user(username: str):
-    return {"username": username}
+@router.get("/users/me/", response_model=UserObject)
+async def read_users_me(current_user: UserObject = Depends(get_current_user)):
+    return current_user
