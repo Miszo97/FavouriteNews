@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 
 class UserQuery:
-    def create_user(self, db: Session, user: UserInDB):
+    def create_user(self, db: Session, user: UserInDB) -> User:
         new_user = User(
             id=user.id,
             username=user.username,
@@ -16,26 +16,26 @@ class UserQuery:
         db.refresh(new_user)
         return new_user
 
-    def get_users(self, db: Session):
+    def get_users(self, db: Session) -> User:
         users = db.query(User).all()
         return users
 
-    def get_user_by_id(self, db: Session, user_id: int):
+    def get_user_by_id(self, db: Session, user_id: int) -> User:
         user = db.query(User).filter(User.id == user_id).first()
         return user
 
-    def get_user_by_username(self, db: Session, username: str):
+    def get_user_by_username(self, db: Session, username: str) -> User:
         user = db.query(User).filter(User.username == username).first()
         return user
 
-    def set_email(self, db: Session, user_id: int, email: str):
+    def set_email(self, db: Session, user_id: int, email: str) -> User:
         user = db.query(User).filter(User.id == user_id).first()
         user.email = email
-        db.session.commit()
+        db.commit()
         return user
 
-    def set_username(self, db: Session, user_id: int, username: str):
+    def set_username(self, db: Session, user_id: int, username: str) -> User:
         user = db.query(User).filter(User.id == user_id).first()
         user.username = username
-        db.session.commit()
+        db.commit()
         return user
