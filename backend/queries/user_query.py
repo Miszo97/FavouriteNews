@@ -31,11 +31,11 @@ class UserQuery:
     def set_email(self, db: Session, user_id: int, email: str):
         user = db.query(User).filter(User.id == user_id).first()
         user.email = email
-        db.session.commit()
+        db.commit()
         return user
 
     def set_username(self, db: Session, user_id: int, username: str):
         user = db.query(User).filter(User.id == user_id).first()
         user.username = username
-        db.session.commit()
+        db.commit()
         return user
