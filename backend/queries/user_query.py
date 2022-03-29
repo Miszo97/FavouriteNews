@@ -1,10 +1,10 @@
 from models.user import User
-from schemas.user_schema import UserObject
+from schemas.user_schema import UserInDB
 from sqlalchemy.orm import Session
 
 
 class UserQuery:
-    def create_user(self, db: Session, user: UserObject):
+    def create_user(self, db: Session, user: UserInDB):
         new_user = User(
             id=user.id,
             username=user.username,

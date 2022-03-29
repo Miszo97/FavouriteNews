@@ -13,9 +13,14 @@ pydantic = "*"
 requests = "*"
 fastapi-sqlalchemy = "*"
 python-dotenv = "*"
+passlib = "*"
+python-jose = "*"
+python-multipart = "*"
+sqlalchemy_utils = "*"
 
 [dev-packages]
 pre-commit = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.9"
