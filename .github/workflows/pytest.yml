@@ -32,4 +32,4 @@ jobs:
           cd backend && pipenv install --deploy --dev
       - name: Run test suite
         run: |
-          pipenv run test -v
+          cd backend && pipenv run test -v
