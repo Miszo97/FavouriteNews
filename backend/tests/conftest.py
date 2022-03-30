@@ -3,11 +3,14 @@ import sqlalchemy as sa
 from app.main import app
 from database import Base
 from dependencies.database_session import get_db
+from enums import Category, Country, Language, Source
 from fastapi.testclient import TestClient
 
 # we need this import for Base.metadata
 from models.user import User  # noqa
 from models.user_search_settings import UserSearchSettings  # noqa
+from queries.user_query import UserQuery
+from queries.user_serach_settings_query import UserSearchSettingsQuery
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
 
@@ -62,3 +65,42 @@ def client(session):
     app.dependency_overrides[get_db] = override_get_db
     yield TestClient(app)
     del app.dependency_overrides[get_db]
+
+
+def create_user(
+    session,
+    username="Bob",
+    email="Bob@example.com",
+    hashed_password="erwsfd32431dsa",
+    id=1,
+    **extra
+) -> User:
+
+    user = User(id=id, username=username, email=email, hashed_password=hashed_password)
+    user_db = UserQuery().create_user(session, user)
+    return user_db
+
+
+def create_user_serach_settings(
+    session,
+    country=Country.PL,
+    category=Category.BUSINESS,
+    source=Source.CNN,
+    language=Language.FR,
+    user_id=1,
+    id=1,
+    **extra
+) -> UserSearchSettings:
+    user_settings = UserSearchSettings(
+        country=country,
+        category=category,
+        source=source,
+        language=language,
+        user_id=user_id,
+        id=id,
+        **extra
+    )
+    user_settings_db = UserSearchSettingsQuery().create_user_search_settings(
+        session, user_settings
+    )
+    return user_settings_db
