@@ -57,4 +57,4 @@ jobs:
       - name: Run test suite
         working-directory: ./backend
         run: |
-          pipenv run test -v
+          python -m pytest -v tests/
