@@ -27,9 +27,11 @@ jobs:
           key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
 
       - name: Install dependencies
+        working-directory: ./backend
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          cd backend && pipenv install --deploy --dev
+          pipenv install --deploy --dev
       - name: Run test suite
+        working-directory: ./backend
         run: |
-          cd backend && pipenv run test -v
+          pipenv run test -v
