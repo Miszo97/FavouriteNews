@@ -11,7 +11,7 @@ from models.user_search_settings import UserSearchSettings  # noqa
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@database:5432/test"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/test"
 
 engine = sa.create_engine(SQLALCHEMY_DATABASE_URL)
 
