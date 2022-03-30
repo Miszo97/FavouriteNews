@@ -8,10 +8,11 @@ from fastapi.testclient import TestClient
 # we need this import for Base.metadata
 from models.user import User  # noqa
 from models.user_search_settings import UserSearchSettings  # noqa
+from settings import DATABASE_HOST
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/test"
+SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:postgres@{DATABASE_HOST}:5432/test"
 
 engine = sa.create_engine(SQLALCHEMY_DATABASE_URL)
 
