@@ -15,3 +15,8 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+  My-Job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello world"
+      - run: echo "This is ${{ github.event_name }}"
