@@ -5,12 +5,7 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    # Docker Hub image that `container-job` executes in
-    container: node:10.18-jessie
-
-    # Service containers to run with `container-job`
+    # Service containers to run with `runner-job`
     services:
       # Label used to access the service container
       postgres:
@@ -25,6 +20,9 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
 
 
     steps:
