@@ -6,6 +6,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     # Service containers to run with `runner-job`
+    env:
+      SECRET_KEY: test
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
     services:
       # Label used to access the service container
       postgres:
