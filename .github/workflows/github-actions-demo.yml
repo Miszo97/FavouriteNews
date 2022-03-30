@@ -19,4 +19,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Hello world"
-      - run: echo "This is ${{ github.event_name }}"
+      - name: "github event name"
+        run: echo "This is ${{ github.event_name }}"
