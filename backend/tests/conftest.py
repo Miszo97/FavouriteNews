@@ -3,14 +3,17 @@ import sqlalchemy as sa
 from app.main import app
 from database import Base
 from dependencies.database_session import get_db
+from enums import Category, Country, Language, Source
 from fastapi.testclient import TestClient
 
 # we need this import for Base.metadata
 from models.user import User  # noqa
 from models.user_search_settings import UserSearchSettings  # noqa
-from settings import DATABASE_HOST
+from queries.user_query import UserQuery
+from queries.user_serach_settings_query import UserSearchSettingsQuery
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
+from settings import DATABASE_HOST
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:postgres@{DATABASE_HOST}:5432/test"
 

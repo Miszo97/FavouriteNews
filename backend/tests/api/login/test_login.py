@@ -1,13 +1,13 @@
 from fastapi import status
+from models.user import User
 from passlib.context import CryptContext
 from queries.user_query import UserQuery
-from schemas.user_schema import UserInDB
 
 
 def test_user_correct_credentials(client, session):
     user_query = UserQuery()
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-    new_user = UserInDB(
+    new_user = User(
         username="johndoe",
         email="johndoe@example.com",
         hashed_password=pwd_context.hash("secret"),
@@ -27,7 +27,7 @@ def test_user_correct_credentials(client, session):
 def test_user_incorrect_credentials(client, session):
     user_query = UserQuery()
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-    new_user = UserInDB(
+    new_user = User(
         username="johndoe",
         email="johndoe@example.com",
         hashed_password=pwd_context.hash("secret"),
