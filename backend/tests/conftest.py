@@ -11,10 +11,14 @@ from models.user import User  # noqa
 from models.user_search_settings import UserSearchSettings  # noqa
 from queries.user_query import UserQuery
 from queries.user_serach_settings_query import UserSearchSettingsQuery
+from settings import DATABASE_HOST, POSTGRES_LOGIN, POSTGRES_PASSWORD
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@database:5432/test"
+SQLALCHEMY_DATABASE_URL = (
+    f"postgresql://{POSTGRES_LOGIN}:{POSTGRES_PASSWORD}@{DATABASE_HOST}:5432/test"
+)
+
 
 engine = sa.create_engine(SQLALCHEMY_DATABASE_URL)
 
@@ -73,7 +77,7 @@ def create_user(
     email="Bob@example.com",
     hashed_password="erwsfd32431dsa",
     id=1,
-    **extra
+    **extra,
 ) -> User:
 
     user = User(id=id, username=username, email=email, hashed_password=hashed_password)
@@ -89,7 +93,7 @@ def create_user_serach_settings(
     language=Language.FR,
     user_id=1,
     id=1,
-    **extra
+    **extra,
 ) -> UserSearchSettings:
     user_settings = UserSearchSettings(
         country=country,
@@ -98,7 +102,7 @@ def create_user_serach_settings(
         language=language,
         user_id=user_id,
         id=id,
-        **extra
+        **extra,
     )
     user_settings_db = UserSearchSettingsQuery().create_user_search_settings(
         session, user_settings
