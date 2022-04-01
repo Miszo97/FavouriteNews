@@ -11,11 +11,13 @@ from models.user import User  # noqa
 from models.user_search_settings import UserSearchSettings  # noqa
 from queries.user_query import UserQuery
 from queries.user_serach_settings_query import UserSearchSettingsQuery
-from settings import DATABASE_HOST
+from settings import DATABASE_HOST, POSTGRES_LOGIN, POSTGRES_PASSWORD
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists
 
-SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:postgres@{DATABASE_HOST}:5432/test"
+SQLALCHEMY_DATABASE_URL = (
+    f"postgresql://{POSTGRES_LOGIN}:{POSTGRES_PASSWORD}@{DATABASE_HOST}:5432/test"
+)
 
 
 engine = sa.create_engine(SQLALCHEMY_DATABASE_URL)
