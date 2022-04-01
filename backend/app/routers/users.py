@@ -7,7 +7,7 @@ from models import User
 from queries.user_query import UserQuery
 from schemas.user_schema import UserObject
 from sqlalchemy.orm import Session
-from utils.authentication import pwd_context
+from utils.authentication import get_password_hash
 
 router = APIRouter()
 
@@ -25,5 +25,5 @@ async def register(
     db: Session = Depends(get_db),
 ):
     new_user = User(username=username, email=email)
-    new_user.hashed_password = pwd_context.hash(password)
+    new_user.hashed_password = get_password_hash(password)
     return UserQuery().create_user(db, new_user)
