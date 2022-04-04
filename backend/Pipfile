@@ -17,7 +17,6 @@ passlib = "*"
 python-jose = "*"
 python-multipart = "*"
 sqlalchemy_utils = "*"
-httpx = "*"
 
 [dev-packages]
 pre-commit = "*"

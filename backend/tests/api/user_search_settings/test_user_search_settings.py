@@ -3,19 +3,20 @@ from queries.user_serach_settings_query import UserSearchSettingsQuery
 from tests.conftest import create_user_serach_settings
 
 
-def test_get_user_search_settings(client, session, authorized_client):
+def test_get_user_search_settings(authorized_client, session):
     create_user_serach_settings(
         session, user_id=1, country=Country.PL, language=Language.EN
     )
 
     authorization = {"Authorization": f"Bearer {authorized_client.token}"}
-    response = client.get("/users/me/user-search-settings", headers=authorization)
+    response = authorized_client.get("/users/me/user-search-settings",
+                                     headers=authorization)
 
     assert response.json().get("country") == "Poland"
     assert response.json().get("language") == "English"
 
 
-def test_create_user_search_settings(client, session, authorized_client):
+def test_create_user_search_settings(authorized_client, session):
 
     authorization = {"Authorization": f"Bearer {authorized_client.token}"}
 
@@ -26,7 +27,7 @@ def test_create_user_search_settings(client, session, authorized_client):
         "language": Language.PT.value,
         "user_id": 1,
     }
-    response = client.post(
+    response = authorized_client.post(
         "/users/me/user-search-settings", json=data, headers=authorization
     )
     user_search_settings_qs = UserSearchSettingsQuery().get_users_settings(session)
@@ -40,7 +41,7 @@ def test_create_user_search_settings(client, session, authorized_client):
     assert response.json().get("user_id") == 1
 
 
-def test_update_user_search_settings(client, session, authorized_client):
+def test_update_user_search_settings(authorized_client, session):
     authorization = {"Authorization": f"Bearer {authorized_client.token}"}
 
     create_user_serach_settings(
@@ -59,7 +60,7 @@ def test_update_user_search_settings(client, session, authorized_client):
         "language": Language.NO.value,
         "user_id": 1,
     }
-    response = client.patch(
+    response = authorized_client.patch(
         "/users/me/user-search-settings", json=data, headers=authorization
     )
 
