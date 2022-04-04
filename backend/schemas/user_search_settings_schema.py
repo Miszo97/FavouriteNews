@@ -14,3 +14,14 @@ class UserSearchSettingsObject(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class UserSearchSettingsInput(BaseModel):
+    id: Optional[int]
+    country: Country
+    category: Category
+    source: Source
+    language: Language
+
+    class Config:
+        orm_mode = True

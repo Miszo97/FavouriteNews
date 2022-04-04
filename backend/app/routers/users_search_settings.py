@@ -4,7 +4,8 @@ from fastapi import APIRouter, Depends
 from models.user_search_settings import UserSearchSettings
 from queries.user_serach_settings_query import UserSearchSettingsQuery
 from schemas.user_schema import UserObject
-from schemas.user_search_settings_schema import UserSearchSettingsObject
+from schemas.user_search_settings_schema import (UserSearchSettingsInput,
+                                                 UserSearchSettingsObject)
 
 router = APIRouter()
 
@@ -21,7 +22,7 @@ async def get_user_search_settings(
 
 @router.post("/users/me/user-search-settings", response_model=UserSearchSettingsObject)
 async def create_user_search_settings(
-    user_settings: UserSearchSettingsObject,
+    user_settings: UserSearchSettingsInput,
     current_user: UserObject = Depends(get_current_user),
     db=Depends(get_db),
 ):

@@ -17,7 +17,6 @@ def test_get_user_search_settings(authorized_client, session):
 
 
 def test_create_user_search_settings(authorized_client, session):
-
     authorization = {"Authorization": f"Bearer {authorized_client.token}"}
 
     data = {
@@ -25,8 +24,8 @@ def test_create_user_search_settings(authorized_client, session):
         "category": Category.TECHNOLOGY.value,
         "source": Source.BBC.value,
         "language": Language.PT.value,
-        "user_id": 1,
     }
+
     response = authorized_client.post(
         "/users/me/user-search-settings", json=data, headers=authorization
     )
