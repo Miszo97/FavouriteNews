@@ -1,13 +1,15 @@
 import enum
 
+
 class Category(enum.Enum):
-    GENERAL =  "Uncategorized News"
+    GENERAL = "general"
     BUSINESS = "Business News"
     ENTERTAINMENT = "Entertainment News"
     HEALTH = "Health News"
     SCIENCE = "Science News"
-    SPORTS = "Sport News"
+    SPORTS = "sports"  # todo convert to small case
     TECHNOLOGY = "Technology News"
+
 
 class Country(enum.Enum):
     AR = "Argentina"
@@ -60,17 +62,19 @@ class Country(enum.Enum):
     AE = "UAE"
     UA = "Ukraine"
     GB = "United Kingdom"
-    US = "United States"
+    US = "us"  # todo convert to small case
     VE = "Venezuela"
+
 
 class Source(enum.Enum):
     CNN = "cnn"
     BBC = "bbc"
 
+
 class Language(enum.Enum):
     AR = "Arabic"
     DE = "German"
-    EN = "English"
+    EN = "en"  # todo convert to small case
     ES = "Spanish"
     FR = "French"
     HE = "Hebrew"
@@ -79,5 +83,5 @@ class Language(enum.Enum):
     NO = "Norwegian"
     PT = "Portuguese"
     RU = "Russian"
-    SE = 'Swedish'
+    SE = "Swedish"
     ZH = "Chinese"
