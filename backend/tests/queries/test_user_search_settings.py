@@ -33,16 +33,16 @@ def test_set_user_search_setting_attribute(session):
     )
 
     UserSearchSettingsQuery().set_category(session, settings_db.id, "BUSINESS")
-    assert settings_db.category.value == "Business News"
+    assert settings_db.category.value == Category.BUSINESS.value
 
     UserSearchSettingsQuery().set_country(session, settings_db.id, "BR")
-    assert settings_db.country.value == "Brazil"
+    assert settings_db.country.value == Country.BR.value
 
     UserSearchSettingsQuery().set_language(session, settings_db.id, "HE")
-    assert settings_db.language.value == "Hebrew"
+    assert settings_db.language.value == Language.HE.value
 
     UserSearchSettingsQuery().set_source(session, settings_db.id, "CNN")
-    assert settings_db.source.value == "cnn"
+    assert settings_db.source.value == Source.CNN.value
 
 
 def test_get_user_search_settings_by_user_id(session):
@@ -54,7 +54,7 @@ def test_get_user_search_settings_by_user_id(session):
         )
     )
 
-    assert user_search_settings.country.value == "Poland"
+    assert user_search_settings.country.value == Country.PL.value
 
 
 def test_get_users_settings(session):
