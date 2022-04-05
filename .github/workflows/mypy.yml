@@ -1,5 +1,5 @@
 name: mypy checks
-on: pull_request
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,4 +11,4 @@ jobs:
         python-version: 3.9
     - run: pip install --upgrade pipenv
     - run: pipenv install mypy==v0.902
-    - run: pipenv run mypy --strict $(git ls-files ‘*.py’)
+    - run: pipenv run mypy $(find . -type f -name '*.py')
