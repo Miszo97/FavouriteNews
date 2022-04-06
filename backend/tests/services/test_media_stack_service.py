@@ -1,9 +1,9 @@
 import pytest
 from enums import Category, Country, Language, Source
 from services.media_stack_service import MediaStackService
-from settings import MEDIA_STACK_API
+from settings import MEDIA_STACK_API_KEY
 
-media_stack_service = MediaStackService(api_key=MEDIA_STACK_API)
+media_stack_service = MediaStackService(api_key=MEDIA_STACK_API_KEY)
 
 
 @pytest.mark.vcr(record_mode="new_episodes")

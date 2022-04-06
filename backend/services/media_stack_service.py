@@ -3,13 +3,13 @@ from typing import List, Optional
 import requests
 from enums import Category, Country, Language, Source
 from services.schemas import Article
-from settings import MEDIA_STACK_API
+from settings import MEDIA_STACK_API_NEWS_ENDPOINT
 
 
 class MediaStackService:
     def __init__(self, api_key):
         self.api_key = api_key
-        self._news_endpoint = "http://api.mediastack.com/v1/news"
+        self._news_endpoint = MEDIA_STACK_API_NEWS_ENDPOINT
 
     def get_news_by_parameters(
         self,
@@ -20,7 +20,7 @@ class MediaStackService:
         limit: Optional[int] = 25,
         offset: Optional[int] = 0,
     ) -> List[Article]:
-        url = f"{self._news_endpoint}" "?" f"access_key={MEDIA_STACK_API}"
+        url = f"{self._news_endpoint}" "?" f"access_key={self.api_key}"
         if country:
             url += f"&countries={country.value}"
 

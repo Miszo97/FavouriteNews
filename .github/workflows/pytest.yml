@@ -13,6 +13,7 @@ jobs:
       POSTGRES_LOGIN: postgres
       POSTGRES_PASSWORD: postgres
       MEDIA_STACK_API: ${{ secrets.MEDIA_STACK_API_KEY }}
+      MEDIA_STACK_API_NEWS_ENDPOINT: ${{ secrets.MEDIA_STACK_API_NEWS_ENDPOINT }}
     services:
       # Label used to access the service container
       postgres:
