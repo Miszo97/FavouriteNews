@@ -1,0 +1,83 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.27.1
+    method: GET
+    uri: http://api.mediastack.com/v1/news?access_key=162b82c434e7ba8482f5b81b8d3d6334&countries=us&languages=en&categories=general&sources=cnn&limit=5
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA7SW3W7cNhCFX2XA24oWpd31j4AicJykQdA4ae0gF1VRzFKzEm0uqXIorxdB3r2g
+        tOs4MdIgTX1LiOccznwc6oPosTUOo/FOVB+ENWsTRbXIhF+tmKKoVCa0H9y0GH1EK6pCKaU+ZqLB
+        iKL644PAIXY+iMoN1mYimmhJVOIZMbz2xhHD22FpjYb3PlwzbHy4Nq4FtBZiR8DObyD4IRKLTDTE
+        Oph+SvQfNYZgRSW6GHuu6rzON5vNwbXW5kD7dZ1jiEZbqvOGWK5HcdmP4jLJsjR+g1JbwsBy6GXS
+        llfeYezQyRadr/PZ8eH85FgVIhPsh6DTec/Oz+HdhciEWWNLnwXQjTvQzk3+2jlHt7HOG0xpmCly
+        nZelKlRZzOZzNZMprPxavEDce9ewjF6uTOA4JeShpyCLw5ODq74VmdAYqfVhKyrRkqOAVmTComuH
+        KR05sevt+M2QCjf6cEfNXxhFJUpVllIVUpWXxXG1UJWa/aRUpZT4mH2t628cwZYwgMVIIYNAvQ+R
+        AgMGAo7GWuiD18ScGrjpMEKHfU+OGvAOXqE7gMMHICRZvxp73dDKuLSXow+GeFo3PNlukMevJh0w
+        jocQSCeZDNA1YCIDm9aZldHoNIFh8M5uoQ1+k2RXwa+ho0AZnJ2f14NS5RGD7gytYE2NQdA+7JpA
+        LsLTYNDBRSQbKQCjGc8x7it/J2twaQkuRkp4WoWLwTW4PfgKqnekpPrXuSrqXJV1PnrXedhJygk8
+        llfo5KG8f1CJzpkbCoxhW+fGNXR70MW1/YLWH0V1oRZKPozjh+DQGo77aI9M5slI5uE3yXzbGYsN
+        2b4zCM+xtcTw21N4hZYcvBxCZOjI9gwrdAybjhwENDYhob212DMx4Co1eWMc+BsK8B65M66N3sEL
+        7+MyzaNLwvUDfk/vtDDCC2qe38ILQ7YB4+BXdE1Sy+A1hq1NkO4NG0DeZ/17wHSRlqivPwudiN+g
+        Hedhjxy/E6uB6/wqyckuycn+XpkkjdZyl13uYz0eVMezxWIuVSnvR/rSfh/rMcGaXaqjanFYzY6+
+        CdYzD1s/QIc3BP7TnCoULIkj6ECNiaAxNOOsShZPHgDyHU0rxhrKwTUUWPtATZ2vvaNtnSdDORnK
+        0fB+p54Y0/x8dn7+7tPGl2+1dxGNo/A/9bFYqFm5UMdlsSgle23QynZ1K1Ni61v/yE0r5pVaVGr+
+        zaadRrCEHKGcwbWxNl21tWlAW+SOGJYUN0QOMKypSW/D0HO6rM6H2MGZt369NPjwnjOs0W3TtS1n
+        0JPvLU1kLJPazsm4Bz7B3KCFdqAQjLV4z3HvtX+JxgQUHJwGHDSmdxUzQK19aNIMiB4QuPfXxD0F
+        9m560RKSpzH64GgLv0yV3kv61cpo+p7BMatzXFMwGrnO9S6hvIsvp/hyPKU0Ltp/GRlwulP6odkx
+        K47mi+IkcXCXZ1dkuTLpgXpE8OaXSlXl4t4P0p8f/wEAAP//AwBmS1OSXQsAAA==
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 6f7890d06eee4132-PRG
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 06 Apr 2022 06:46:19 GMT
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=rXIOxofcQm7XU2g9E2qUAastlpIUB%2Fr4VP%2FUmHgVUWBXZ%2BvC1bcJhM8WRJMAVwMlZEVFPQh0aDldvg7GyW7fvCTLsio8oJ0idS%2FtjOdaEx3Gd7UuHxW1JfR6m4RIQZT10X1nUKg%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-headers:
+      - '*'
+      access-control-allow-methods:
+      - GET, POST, HEAD, OPTIONS
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+      cache-control:
+      - no-cache, private
+      x-apilayer-transaction-id:
+      - 8b149ebc-71b9-440c-a056-f93469eae4f3
+      x-increment-usage:
+      - '1'
+      x-quota-limit:
+      - '500'
+      x-quota-remaining:
+      - '473'
+      x-request-time:
+      - '0.046'
+      - '0.075'
+    status:
+      code: 200
+      message: OK
+version: 1
