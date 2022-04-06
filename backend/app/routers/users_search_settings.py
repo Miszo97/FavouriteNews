@@ -26,27 +26,18 @@ async def create_user_search_settings(
     current_user: UserObject = Depends(get_current_user),
     db=Depends(get_db),
 ):
-
-    new_user_settings = UserSearchSettings(
-        country=user_settings.country,
-        category=user_settings.category,
-        source=user_settings.source,
-        language=user_settings.language,
-        user_id=current_user.id,
-    )
     user_settings_db = UserSearchSettingsQuery().create_user_search_settings(
-        db, new_user_settings
+        db, UserSearchSettings(**user_settings.dict(), user_id=current_user.id)
     )
     return user_settings_db
 
 
 @router.patch("/users/me/user-search-settings", response_model=UserSearchSettingsObject)
 async def update_user_search_settings(
-    new_settings: UserSearchSettingsObject,
+    new_settings: UserSearchSettingsInput,
     current_user: UserObject = Depends(get_current_user),
     db=Depends(get_db),
 ):
-
     stored_settings_data = (
         UserSearchSettingsQuery().get_user_search_settings_by_user_id(
             db, current_user.id

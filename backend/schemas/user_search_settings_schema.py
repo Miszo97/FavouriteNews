@@ -18,10 +18,10 @@ class UserSearchSettingsObject(BaseModel):
 
 class UserSearchSettingsInput(BaseModel):
     id: Optional[int]
-    country: Country
-    category: Category
-    source: Source
-    language: Language
+    country: Optional[Country]
+    category: Optional[Category]
+    source: Optional[Source]
+    language: Optional[Language]
 
     class Config:
         orm_mode = True

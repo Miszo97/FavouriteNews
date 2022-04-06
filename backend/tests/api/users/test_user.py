@@ -3,19 +3,13 @@ from tests.conftest import create_user
 
 
 def test_get_user(authorized_client):
-
-    authorization = {"Authorization": "Bearer " + authorized_client.token}
-
-    response = authorized_client.get("/users/me", headers=authorization)
+    response = authorized_client.get("/users/me")
 
     assert response.json().get("username") == "active_user"
     assert response.json().get("email") == "active_user@gmail.com"
 
 
 def test_update_user(session, authorized_client):
-
-    authorization = {"Authorization": "Bearer " + authorized_client.token}
-
     user = UserQuery().get_user_by_id(session, 1)
 
     assert user.id == 1
@@ -24,7 +18,7 @@ def test_update_user(session, authorized_client):
 
     data = {"username": "new_username", "email": "new_email"}
 
-    response = authorized_client.patch("/users/me", headers=authorization, json=data)
+    response = authorized_client.patch("/users/me", json=data)
 
     assert response.json().get("username") == "new_username"
     assert response.json().get("email") == "new_email"
@@ -35,7 +29,6 @@ def test_get_users(session, authorized_client):
     create_user(session, username="John", email="John@gmail.com", id=2)
     create_user(session, username="Ave", email="Ave@gmail.com", id=3)
 
-    authorization = {"Authorization": "Bearer " + authorized_client.token}
-    response = authorized_client.get("/users/me/", headers=authorization)
+    response = authorized_client.get("/users/me")
 
     assert len(response.json()) == 3
