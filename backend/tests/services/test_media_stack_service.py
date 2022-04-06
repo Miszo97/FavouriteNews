@@ -6,7 +6,7 @@ from settings import MEDIA_STACK_API
 media_stack_service = MediaStackService(api_key=MEDIA_STACK_API)
 
 
-@pytest.mark.vcr()
+@pytest.mark.vcr(record_mode="new_episodes")
 def test_get_articles_by_parameters():
     articles = media_stack_service.get_news_by_parameters(
         country=Country.US,
@@ -23,7 +23,7 @@ def test_get_articles_by_parameters():
     assert Category.GENERAL.value in first_article.values()
 
 
-@pytest.mark.vcr()
+@pytest.mark.vcr(record_mode="new_episodes")
 def test_get_articles_limit():
     articles = media_stack_service.get_news_by_parameters(
         country=Country.US,
