@@ -7,16 +7,17 @@ repos:
       - id: trailing-whitespace
 
   # isort
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v4.3.21
+  - repo: https://github.com/pycqa/isort
+    rev: 5.5.4
     hooks:
       - id: isort
+        args: ["--profile", "black"]
 
   # black
   - repo: https://github.com/psf/black
-    rev: 21.12b0
+    rev: 22.3.0
     hooks:
-    - id: black
+      - id: black
 
   # flake8
   - repo: https://github.com/pycqa/flake8
