@@ -17,13 +17,12 @@ passlib = "*"
 python-jose = "*"
 python-multipart = "*"
 sqlalchemy_utils = "*"
-vcrpy = "*"
-pip = "*"
-pytest-vcr = "*"
 
 [dev-packages]
 pre-commit = "*"
 pytest = "*"
+vcrpy = "*"
+pytest-vcr = "*"
 
 [requires]
 python_version = "3.9"
