@@ -21,6 +21,8 @@ sqlalchemy_utils = "*"
 [dev-packages]
 pre-commit = "*"
 pytest = "*"
+vcrpy = "*"
+pytest-vcr = "*"
 
 [requires]
 python_version = "3.9"

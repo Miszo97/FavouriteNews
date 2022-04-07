@@ -83,5 +83,5 @@ class Language(enum.Enum):
     NO = "no"
     PT = "pt"
     RU = "ru"
-    SE = 'se'
+    SE = "se"
     ZH = "zh"
