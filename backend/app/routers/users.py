@@ -24,7 +24,9 @@ async def register(
     return UserQuery().create_user(db, new_user)
 
 
-@router.get("/users", response_model=List[UserObject])
+@router.get(
+    "/users", response_model=List[UserObject], dependencies=[Depends(get_current_user)]
+)
 async def get_users(db=Depends(get_db)):
     users = UserQuery().get_users(db)
     return users
