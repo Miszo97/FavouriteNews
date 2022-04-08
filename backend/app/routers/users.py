@@ -45,14 +45,19 @@ async def get_user(current_user: UserObject = Depends(get_current_user)):
 @router.patch("/users/me", response_model=UserObject)
 async def update_user(
     new_user: UserObject,
+    db: Session = Depends(get_db),
     current_user: UserObject = Depends(get_current_user),
 ):
     stored_user_model = UserObject.from_orm(current_user)
-
     update_data = new_user.dict(exclude_unset=True)
-
     updated_user = stored_user_model.copy(update=update_data)
 
+    db.delete(current_user)
+
+    new_user_db = User(**updated_user.dict())
+    db.add(new_user_db)
+    db.commit()
+    db.refresh(new_user_db)
     return updated_user
 
 

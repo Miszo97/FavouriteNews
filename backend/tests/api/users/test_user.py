@@ -21,6 +21,7 @@ def test_update_user(session, authorized_client):
 
     response = authorized_client.patch("/users/me", json=data)
 
+    assert response.json().get("id") == 1
     assert response.json().get("username") == "new_username"
     assert response.json().get("email") == "new_email"
     assert response.json().get("hashed_password") != "plain_password"

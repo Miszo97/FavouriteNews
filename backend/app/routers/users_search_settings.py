@@ -4,8 +4,10 @@ from fastapi import APIRouter, Depends
 from models.user_search_settings import UserSearchSettings
 from queries.user_serach_settings_query import UserSearchSettingsQuery
 from schemas.user_schema import UserObject
-from schemas.user_search_settings_schema import (UserSearchSettingsInput,
-                                                 UserSearchSettingsObject)
+from schemas.user_search_settings_schema import (
+    UserSearchSettingsInput,
+    UserSearchSettingsObject,
+)
 
 router = APIRouter()
 
@@ -45,9 +47,14 @@ async def update_user_search_settings(
     )
 
     stored_settings_model = UserSearchSettingsObject.from_orm(stored_settings_data)
-
     update_data = new_settings.dict(exclude_unset=True)
-
     updated_settings = stored_settings_model.copy(update=update_data)
 
+    db.delete(stored_settings_data)
+
+    new_settings_db = UserSearchSettings(**updated_settings.dict())
+
+    db.add(new_settings_db)
+    db.commit()
+    db.refresh(new_settings_db)
     return updated_settings

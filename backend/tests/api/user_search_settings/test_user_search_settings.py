@@ -49,7 +49,8 @@ def test_update_user_search_settings(authorized_client, session):
         "category": Category.SPORTS.value,
     }
     response = authorized_client.patch("/users/me/user-search-settings", json=data)
-    print(response.json())
+
+    assert response.json().get("id") == 1
     assert response.json().get("country") == Country.BR.value
     assert response.json().get("category") == Category.SPORTS.value
     assert response.json().get("source") == Source.BBC.value
