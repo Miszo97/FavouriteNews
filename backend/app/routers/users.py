@@ -2,10 +2,10 @@ from typing import List, Optional
 
 from dependencies.current_user import get_current_user
 from dependencies.database_session import get_db
-from enums import Category, Country, Language, Source
 from fastapi import APIRouter, Depends, Form
 from models import User
 from queries.user_query import UserQuery
+from queries.user_serach_settings_query import UserSearchSettingsQuery
 from schemas.user_schema import UserObject
 from services.media_stack_service import MediaStackService
 from services.schemas import Article
@@ -44,7 +44,6 @@ async def get_user(current_user: UserObject = Depends(get_current_user)):
 async def update_user(
     new_user: UserObject,
     current_user: UserObject = Depends(get_current_user),
-    db=Depends(get_db),
 ):
     stored_user_model = UserObject.from_orm(current_user)
 
@@ -57,14 +56,21 @@ async def update_user(
 
 @router.post("/users/me/followed-articles", response_model=List[Article])
 async def followed_articles(
-    country: Optional[Country] = Form(None),
-    language: Optional[Language] = Form(None),
-    category: Optional[Category] = Form(None),
-    source: Optional[Source] = Form(None),
+    db=Depends(get_db),
+    current_user: User = Depends(get_current_user),
     limit: Optional[int] = Form(None),
     offset: Optional[int] = Form(None),
 ):
+    user = current_user
+    user_settings = UserSearchSettingsQuery().get_user_search_settings_by_user_id(
+        db, user.id
+    )
     articles = MediaStackService(MEDIA_STACK_API_KEY).get_news_by_parameters(
-        country, language, category, source, limit, offset
+        user_settings.country,
+        user_settings.language,
+        user_settings.category,
+        user_settings.source,
+        limit,
+        offset,
     )
     return articles
