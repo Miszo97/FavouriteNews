@@ -16,7 +16,6 @@ def test_get_articles_unauthorized(client, session):
 
 @pytest.mark.vcr(record_mode="new_episodes")
 def test_get_articles(authorized_client, session):
-
     create_user_serach_settings(
         session,
         user_id=authorized_client.user.id,
@@ -31,16 +30,9 @@ def test_get_articles(authorized_client, session):
     response = authorized_client.post(endpoint, data=payload)
 
     articles = response.json()
+
     assert len(articles) == 10
 
-    countries = []
-    languages = []
-    categories = []
-    for i in articles:
-        countries.append(i["country"])
-        languages.append(i["language"])
-        categories.append(i["category"])
-
-    assert countries.count(Country.US.value) == 10
-    assert languages.count(Language.EN.value) == 10
-    assert categories.count(Category.GENERAL.value) == 10
+    assert sum([1 for article in articles if article["country"] == Country.US.value]) == 10
+    assert sum([1 for article in articles if article["language"] == Language.EN.value]) == 10
+    assert sum([1 for article in articles if article["category"] == Category.GENERAL.value])== 10
