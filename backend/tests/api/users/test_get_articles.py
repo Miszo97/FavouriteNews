@@ -10,7 +10,7 @@ def test_get_articles_unauthorized(client, session):
     create_user(session)
     payload = {"limit": "10", "offset": "0"}
 
-    response = client.post(endpoint, json=payload)
+    response = client.get(endpoint, json=payload)
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
@@ -27,7 +27,7 @@ def test_get_articles(authorized_client, session):
 
     payload = {"limit": "10", "offset": "0"}
 
-    response = authorized_client.post(endpoint, data=payload)
+    response = authorized_client.get(endpoint, data=payload)
 
     articles = response.json()
 

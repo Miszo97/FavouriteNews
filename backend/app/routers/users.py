@@ -54,7 +54,7 @@ async def update_user(
     return updated_user
 
 
-@router.post("/users/me/followed-articles", response_model=List[Article])
+@router.get("/users/me/followed-articles", response_model=List[Article])
 async def followed_articles(
     db=Depends(get_db),
     current_user: User = Depends(get_current_user),
