@@ -5,7 +5,11 @@ from dependencies.database_session import get_db
 from fastapi import APIRouter, Depends, Form
 from models import User
 from queries.user_query import UserQuery
+from queries.user_serach_settings_query import UserSearchSettingsQuery
 from schemas.user_schema import UserObject
+from services.media_stack_service import MediaStackService
+from services.schemas import Article
+from settings import MEDIA_STACK_API_KEY
 from sqlalchemy.orm import Session
 from utils.authentication import get_password_hash
 
@@ -42,7 +46,6 @@ async def get_user(current_user: UserObject = Depends(get_current_user)):
 async def update_user(
     new_user: UserObject,
     current_user: UserObject = Depends(get_current_user),
-    db=Depends(get_db),
 ):
     stored_user_model = UserObject.from_orm(current_user)
 
@@ -51,3 +54,25 @@ async def update_user(
     updated_user = stored_user_model.copy(update=update_data)
 
     return updated_user
+
+
+@router.get("/users/me/followed-articles", response_model=List[Article])
+async def followed_articles(
+    db=Depends(get_db),
+    current_user: User = Depends(get_current_user),
+    limit: Optional[int] = Form(None),
+    offset: Optional[int] = Form(None),
+):
+    user = current_user
+    user_settings = UserSearchSettingsQuery().get_user_search_settings_by_user_id(
+        db, user.id
+    )
+    articles = MediaStackService(MEDIA_STACK_API_KEY).get_news_by_parameters(
+        user_settings.country,
+        user_settings.language,
+        user_settings.category,
+        user_settings.source,
+        limit,
+        offset,
+    )
+    return articles

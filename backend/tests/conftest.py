@@ -5,6 +5,7 @@ from database import Base
 from dependencies.database_session import get_db
 from enums import Category, Country, Language, Source
 from fastapi.testclient import TestClient
+
 # we need this import for Base.metadata
 from models.user import User  # noqa
 from models.user_search_settings import UserSearchSettings  # noqa
@@ -104,7 +105,7 @@ def create_user_serach_settings(
 
 
 @pytest.fixture
-def authorized_client(session, client) -> client:
+def authorized_client(session, client) -> TestClient:
     test_user = create_user(
         session, username="active_user", email="active_user@gmail.com"
     )

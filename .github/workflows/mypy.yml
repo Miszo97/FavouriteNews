@@ -11,4 +11,5 @@ jobs:
         python-version: 3.9
     - run: pip install --upgrade pipenv
     - run: pipenv install mypy==v0.902
+    - run: pipenv install types-requests
     - run: pipenv run mypy --ignore-missing-imports $(find . -type f -name '*.py')
