@@ -2,10 +2,14 @@ from typing import List, Optional
 
 from dependencies.current_user import get_current_user
 from dependencies.database_session import get_db
+from enums import Category, Country, Language, Source
 from fastapi import APIRouter, Depends, Form
 from models import User
 from queries.user_query import UserQuery
 from schemas.user_schema import UserObject
+from services.media_stack_service import MediaStackService
+from services.schemas import Article
+from settings import MEDIA_STACK_API_KEY
 from sqlalchemy.orm import Session
 from utils.authentication import get_password_hash
 
@@ -49,3 +53,18 @@ async def update_user(
     updated_user = stored_user_model.copy(update=update_data)
 
     return updated_user
+
+
+@router.post("/users/me/followed-articles", response_model=List[Article])
+async def followed_articles(
+    country: Optional[Country] = Form(None),
+    language: Optional[Language] = Form(None),
+    category: Optional[Category] = Form(None),
+    source: Optional[Source] = Form(None),
+    limit: Optional[int] = Form(None),
+    offset: Optional[int] = Form(None),
+):
+    articles = MediaStackService(MEDIA_STACK_API_KEY).get_news_by_parameters(
+        country, language, category, source, limit, offset
+    )
+    return articles
