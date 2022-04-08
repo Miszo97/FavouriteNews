@@ -1,3 +1,4 @@
+from fastapi import status
 from queries.user_query import UserQuery
 from tests.conftest import create_user
 
@@ -32,3 +33,12 @@ def test_get_users(session, authorized_client):
     response = authorized_client.get("/users/me")
 
     assert len(response.json()) == 3
+
+
+def test_get_users_unauthorized(session, client):
+    create_user(session, username="John", email="John@gmail.com", id=2)
+    create_user(session, username="Ave", email="Ave@gmail.com", id=3)
+
+    response = client.get("/users/me")
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
