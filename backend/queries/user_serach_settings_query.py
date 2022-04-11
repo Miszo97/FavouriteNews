@@ -73,3 +73,15 @@ class UserSearchSettingsQuery:
         user_search_settings.source = source
         db.commit()
         return user_search_settings
+
+    def delete_user_search_settings(
+        self, db: Session, settings_id: int
+    ) -> UserSearchSettings:
+        user_search_settings = (
+            db.query(UserSearchSettings)
+            .filter(UserSearchSettings.id == settings_id)
+            .first()
+        )
+        db.delete(user_search_settings)
+        db.commit()
+        return user_search_settings

@@ -32,3 +32,9 @@ class UserQuery:
         user.username = username
         db.commit()
         return user
+
+    def delete_user(self, db: Session, user_id: int) -> User:
+        user = db.query(User).filter(User.id == user_id).first()
+        db.delete(user)
+        db.commit()
+        return user

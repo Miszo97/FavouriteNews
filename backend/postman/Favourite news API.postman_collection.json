@@ -353,6 +353,22 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Delete a user",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a user serach settings",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	]
 }
