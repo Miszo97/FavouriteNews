@@ -2,7 +2,8 @@ from typing import List, Optional
 
 from dependencies.current_user import get_current_user
 from dependencies.database_session import get_db
-from fastapi import APIRouter, Depends, Form
+from fastapi import APIRouter, Depends, Form, status
+from fastapi.responses import JSONResponse
 from models import User
 from queries.user_query import UserQuery
 from queries.user_serach_settings_query import UserSearchSettingsQuery
@@ -23,6 +24,11 @@ async def register(
     email: Optional[str] = Form(None),
     db: Session = Depends(get_db),
 ):
+    is_user = UserQuery().get_user_by_username(db, username)
+    if is_user:
+        message = {"error": "username already exists"}
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=message)
+
     new_user = User(username=username, email=email)
     new_user.hashed_password = get_password_hash(password)
     return UserQuery().create_user(db, new_user)
