@@ -24,10 +24,9 @@ async def register(
     email: Optional[str] = Form(None),
     db: Session = Depends(get_db),
 ):
-    is_user = UserQuery().get_user_by_username(db, username)
-    if is_user:
-        message = {"error": "username already exists"}
-        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=message)
+    if UserQuery().get_user_by_username(db, username):
+        detail = {"error": "username already exists"}
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
 
     new_user = User(username=username, email=email)
     new_user.hashed_password = get_password_hash(password)
