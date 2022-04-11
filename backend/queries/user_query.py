@@ -32,3 +32,12 @@ class UserQuery:
         user.username = username
         db.commit()
         return user
+
+    def update_user(self, db: Session, user_id, update_data) -> User:
+
+        db.query(User).filter(User.id == user_id).update(update_data)
+        db.commit()
+
+        user = db.query(User).filter(User.id == user_id).first()
+
+        return user

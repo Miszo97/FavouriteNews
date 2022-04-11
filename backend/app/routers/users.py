@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Form
 from models import User
 from queries.user_query import UserQuery
 from queries.user_serach_settings_query import UserSearchSettingsQuery
-from schemas.user_schema import UserObject
+from schemas.user_schema import UserInput, UserObject
 from services.media_stack_service import MediaStackService
 from services.schemas import Article
 from settings import MEDIA_STACK_API_KEY
@@ -44,14 +44,13 @@ async def get_user(current_user: UserObject = Depends(get_current_user)):
 
 @router.patch("/users/me", response_model=UserObject)
 async def update_user(
-    new_user: UserObject,
+    new_user_object: UserInput,
     current_user: UserObject = Depends(get_current_user),
+    db: Session = Depends(get_db),
 ):
-    stored_user_model = UserObject.from_orm(current_user)
+    update_data = new_user_object.dict(exclude_unset=True)
 
-    update_data = new_user.dict(exclude_unset=True)
-
-    updated_user = stored_user_model.copy(update=update_data)
+    updated_user = UserQuery().update_user(db, current_user.id, update_data)
 
     return updated_user
 

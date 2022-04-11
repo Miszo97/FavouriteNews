@@ -12,5 +12,11 @@ class UserObject(BaseModel):
         orm_mode = True
 
 
+class UserInput(BaseModel):
+    id: Optional[int]
+    username: Optional[str]
+    email: Optional[str]
+
+
 class UserInDB(UserObject):
     hashed_password: str
