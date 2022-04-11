@@ -60,6 +60,26 @@ async def update_user(
     return updated_user
 
 
+@router.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(
+    user_id: int,
+    current_user: UserObject = Depends(get_current_user),
+    db=Depends(get_db),
+):
+    user = UserQuery().get_user_by_id(db, user_id)
+    if user is None:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND, content={"detail": "User not found"}
+        )
+    if user.id == current_user.id:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={"detail": "You can not delete yourself"},
+        )
+    UserQuery().delete_user(db, user_id)
+    return user
+
+
 @router.get("/users/me/followed-articles", response_model=List[Article])
 async def followed_articles(
     db=Depends(get_db),

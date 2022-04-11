@@ -33,11 +33,17 @@ class UserQuery:
         db.commit()
         return user
 
+    def delete_user(self, db: Session, user_id: int) -> User:
+        user = db.query(User).filter(User.id == user_id).first()
+        db.delete(user)
+        db.commit()
+
     def update_user(self, db: Session, user_id, update_data) -> User:
 
         db.query(User).filter(User.id == user_id).update(update_data)
         db.commit()
 
         user = db.query(User).filter(User.id == user_id).first()
+
 
         return user
