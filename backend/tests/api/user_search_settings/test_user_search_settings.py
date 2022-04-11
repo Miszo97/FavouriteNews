@@ -71,7 +71,7 @@ def test_update_user_search_settings(authorized_client, session):
     assert user_settings.source.value == Source.BBC.value
 
     assert response.json().get("language") == Language.EN.value
-
+    assert user_settings.language.value == Language.EN.value
 
 
 def test_delete_user_search_settings(session, authorized_client):
@@ -92,6 +92,3 @@ def test_delete_unexisting_user_search_settings(authorized_client):
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.json() == {"detail": "User search settings not found"}
-
-    assert user_settings.language.value == Language.EN.value
-
