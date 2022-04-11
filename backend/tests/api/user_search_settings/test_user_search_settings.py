@@ -50,8 +50,22 @@ def test_update_user_search_settings(authorized_client, session):
     }
     response = authorized_client.patch("/users/me/user-search-settings", json=data)
 
+    assert len(UserSearchSettingsQuery().get_users_settings(session)) == 1
+    user_settings = UserSearchSettingsQuery().get_user_search_settings_by_user_id(
+        session, authorized_client.user.id
+    )
+
     assert response.json().get("id") == 1
+    assert user_settings.id == 1
+
     assert response.json().get("country") == Country.BR.value
+    assert user_settings.country.value == Country.BR.value
+
     assert response.json().get("category") == Category.SPORTS.value
+    assert user_settings.category.value == Category.SPORTS.value
+
     assert response.json().get("source") == Source.BBC.value
+    assert user_settings.source.value == Source.BBC.value
+
     assert response.json().get("language") == Language.EN.value
+    assert user_settings.language.value == Language.EN.value

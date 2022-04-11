@@ -75,13 +75,12 @@ class UserSearchSettingsQuery:
         return user_search_settings
 
     def update_user_search_settings(self, db: Session, user_id, update_data):
-        user_settings = self.get_user_search_settings_by_user_id(db, user_id)
 
-        for key, value in update_data.items():
-            setattr(user_settings, key, value)
-
-        db.add(user_settings)
+        db.query(UserSearchSettings).filter(
+            UserSearchSettings.user_id == user_id
+        ).update(update_data)
         db.commit()
-        db.refresh(user_settings)
+
+        user_settings = self.get_user_search_settings_by_user_id(db, user_id)
 
         return user_settings
