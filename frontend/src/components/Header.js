@@ -5,8 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-
-const pages = ['News', 'Search Settings'];
+import Link from '@mui/material/Link';
 
 const Header = () => {
   return (
@@ -14,14 +13,21 @@ const Header = () => {
       <Container maxWidth="xxl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, backgroundColor: "inherit", display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
+
+            <Link href="/news">
+                <Button
                 sx={{ my: 1, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+                >
+                News
+                </Button>
+            </Link>
+            <Link href="/settings">
+                <Button
+                sx={{ my: 1, color: 'white', display: 'block' }}
+                >
+                Search Settings
+                </Button>
+            </Link>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
