@@ -1,7 +1,14 @@
+import Header from "./components/Header"
+import { Container } from '@mui/material';
+
 function App() {
   return (
     <div>
-     Favourite News
+    <Header />
+    <main>
+      <Container>
+      </Container>
+    </main>
     </div>
   );
 }
