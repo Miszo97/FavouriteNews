@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 
-const pages = ['News', 'Search Setting'];
+const pages = ['News', 'Search Settings'];
 
 const Header = () => {
   return (
