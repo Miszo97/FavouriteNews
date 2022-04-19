@@ -137,3 +137,6 @@ cassettes/
 #vscode
 .devcontainer
 .vscode
+
+#node
+node_modules/
