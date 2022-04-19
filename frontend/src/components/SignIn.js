@@ -33,13 +33,14 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+const axios = require("axios").default;
+
 export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    axios.post("http://localhost:8000/token", data).then((response) => {
+      localStorage.setItem("access_token", response.data["access_token"]);
     });
   };
 
@@ -71,10 +72,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
