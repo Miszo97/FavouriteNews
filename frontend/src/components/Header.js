@@ -38,13 +38,11 @@ const Header = () => {
           >
             <Link href="/signin">
               <Button sx={{ my: 2, color: "white", display: "block" }}>
-                {" "}
                 Login
               </Button>
             </Link>
             <Link href="/signup">
               <Button sx={{ my: 2, color: "white", display: "block" }}>
-                {" "}
                 Sign Up
               </Button>
             </Link>
