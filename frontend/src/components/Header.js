@@ -86,7 +86,7 @@ const Header = (props) => {
               </Button>
             </Link>
           </Box>
-          <LoginControl isLoggedIn={props.isLoggedIn} />
+          <LoginControl />
         </Toolbar>
       </Container>
     </AppBar>
