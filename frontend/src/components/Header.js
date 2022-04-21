@@ -63,7 +63,7 @@ const LoginControl = () => {
   );
 };
 
-const Header = (props) => {
+const Header = () => {
   return (
     <AppBar position="static" sx={{ backgroundColor: "#313C56" }}>
       <Container maxWidth="xxl">
