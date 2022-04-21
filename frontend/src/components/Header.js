@@ -5,8 +5,65 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
+import React, { useContext } from "react";
+import { UserContext } from ".././userContext";
 
-const Header = () => {
+function logout(setAccessToken, setUserName) {
+  setAccessToken(null);
+  setUserName(null);
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("user_name");
+}
+
+const LoginControl = () => {
+  const setAccessToken = useContext(UserContext).setAccessToken;
+  const setUserName = useContext(UserContext).setUserName;
+  const accessToken = useContext(UserContext).accessToken;
+  const userName = useContext(UserContext).userName;
+
+  if (accessToken) {
+    return (
+      <Box
+        sx={{
+          flexGrow: 0,
+          backgroundColor: "inherit",
+          display: { xs: "none", md: "flex" },
+        }}
+      >
+        {userName}
+        <Button
+          sx={{ my: 2, color: "white", display: "block" }}
+          onClick={() => {
+            logout(setAccessToken, setUserName);
+          }}
+        >
+          Logout
+        </Button>
+      </Box>
+    );
+  }
+
+  return (
+    <Box
+      sx={{
+        flexGrow: 0,
+        backgroundColor: "inherit",
+        display: { xs: "none", md: "flex" },
+      }}
+    >
+      <Link href="/signin">
+        <Button sx={{ my: 2, color: "white", display: "block" }}>Login</Button>
+      </Link>
+      <Link href="/signup">
+        <Button sx={{ my: 2, color: "white", display: "block" }}>
+          Sign Up
+        </Button>
+      </Link>
+    </Box>
+  );
+};
+
+const Header = (props) => {
   return (
     <AppBar position="static" sx={{ backgroundColor: "#313C56" }}>
       <Container maxWidth="xxl">
@@ -29,24 +86,7 @@ const Header = () => {
               </Button>
             </Link>
           </Box>
-          <Box
-            sx={{
-              flexGrow: 0,
-              backgroundColor: "inherit",
-              display: { xs: "none", md: "flex" },
-            }}
-          >
-            <Link href="/signin">
-              <Button sx={{ my: 2, color: "white", display: "block" }}>
-                Login
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button sx={{ my: 2, color: "white", display: "block" }}>
-                Sign Up
-              </Button>
-            </Link>
-          </Box>
+          <LoginControl isLoggedIn={props.isLoggedIn} />
         </Toolbar>
       </Container>
     </AppBar>

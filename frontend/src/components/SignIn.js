@@ -12,6 +12,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { UserContext } from ".././userContext";
+import { useContext } from "react";
 
 function Copyright(props) {
   return (
@@ -35,12 +37,27 @@ const theme = createTheme();
 
 const axios = require("axios").default;
 
+function login(access_token, setAccessToken, userName, setUserName) {
+  setAccessToken(access_token);
+  setUserName(userName);
+  localStorage.setItem("access_token", access_token);
+  localStorage.setItem("user_name", userName);
+}
+
 export default function SignIn() {
+  const setAccessToken = useContext(UserContext).setAccessToken;
+  const setUserName = useContext(UserContext).setUserName;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     axios.post("http://localhost:8000/token", data).then((response) => {
-      localStorage.setItem("access_token", response.data["access_token"]);
+      login(
+        response.data["access_token"],
+        setAccessToken,
+        data.get("username"),
+        setUserName
+      );
     });
   };
 
