@@ -8,8 +8,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
 const NewsScreen = () => {
-  const access_token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huZG9lMSIsImV4cCI6MTY1MDM2MzI2OX0.DNcF-0_3R0yjMVH9oU_AQaH0jbw2D17efRUv7upczkc";
+  const access_token = localStorage.getItem("access_token");
 
   const config = {
     headers: {
