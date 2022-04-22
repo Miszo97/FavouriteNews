@@ -37,30 +37,30 @@ const axios = require("axios").default;
 const FeedbackField = (props) => {
   const response = props.response;
 
-   if (response != null){
-
+  if (response != null) {
     var response_box = (
       <Box marginBottom={2}>
         <Alert severity="error">{response.data.error}</Alert>
       </Box>
-    )
+    );
 
-    switch(response.status){
+    switch (response.status) {
       case 201:
         response_box = (
-        <Box marginBottom={2}>
-          <Alert severity="success">User has been created</Alert>
-        </Box>
-        )
-        break; 
+          <Box marginBottom={2}>
+            <Alert severity="success">User has been created</Alert>
+          </Box>
+        );
+        break;
       case 422:
         response_box = (
-        <Box marginBottom={2}>
-          <Alert severity="error">Some fields are missing</Alert>
-        </Box>)
+          <Box marginBottom={2}>
+            <Alert severity="error">Some fields are missing</Alert>
+          </Box>
+        );
     }
-    
-    return response_box
+
+    return response_box;
   }
 };
 
@@ -149,7 +149,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
