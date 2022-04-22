@@ -37,7 +37,11 @@ const SearchSettings = () => {
     },
   };
 
+  const [field_to_update, setField] = useState("");
+  const [field_options, setOptions] = useState([]);
   const [settings, setSettings] = useState({});
+  const [open, setOpen] = useState(false);
+  const [save, setSave] = useState(false);
 
   useEffect(() => {
     async function fetchSettings() {
@@ -48,14 +52,10 @@ const SearchSettings = () => {
       setSettings(data);
     }
     fetchSettings();
-  });
+  }, [save]);
 
-  const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-  const [field_to_update, setField] = React.useState("");
-  const [field_options, setOptions] = useState([]);
 
   const handleClickOpen = (event) => {
     setOpen(true);
@@ -82,6 +82,7 @@ const SearchSettings = () => {
 
   const handleClickSave = () => {
     setOpen(false);
+    setSave(true);
     var key = field_to_update;
     var update_data = {};
     update_data[key] = chosen_option;
