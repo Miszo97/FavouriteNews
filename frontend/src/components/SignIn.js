@@ -42,6 +42,7 @@ function login(access_token, setAccessToken, userName, setUserName) {
   setUserName(userName);
   localStorage.setItem("access_token", access_token);
   localStorage.setItem("user_name", userName);
+  window.location.href = "http://localhost:3000/news";
 }
 
 export default function SignIn() {
