@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,6 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Alert from "@mui/material/Alert";
 
 function Copyright(props) {
   return (
@@ -33,14 +32,52 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+const axios = require("axios").default;
+
+const FeedbackField = (props) => {
+  const response = props.response;
+
+  if (response != null) {
+    var response_box = (
+      <Box marginBottom={2}>
+        <Alert severity="error">{response.data.error}</Alert>
+      </Box>
+    );
+
+    switch (response.status) {
+      case 201:
+        response_box = (
+          <Box marginBottom={2}>
+            <Alert severity="success">User has been created</Alert>
+          </Box>
+        );
+        break;
+      case 422:
+        response_box = (
+          <Box marginBottom={2}>
+            <Alert severity="error">Some fields are missing</Alert>
+          </Box>
+        );
+    }
+
+    return response_box;
+  }
+};
+
 export default function SignUp() {
+  const [response, setResponse] = React.useState(null);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    axios
+      .post("http://localhost:8000/users", data)
+      .then((response) => {
+        setResponse(response);
+      })
+      .catch((error) => {
+        setResponse(error.response);
+      });
   };
 
   return (
@@ -67,26 +104,17 @@ export default function SignUp() {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
+            <FeedbackField response={response} />
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="username"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="userName"
+                  label="Username"
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -110,14 +138,6 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -129,7 +149,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
