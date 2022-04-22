@@ -37,20 +37,30 @@ const axios = require("axios").default;
 const FeedbackField = (props) => {
   const response = props.response;
 
-  if (response === null) return;
+   if (response != null){
 
-  if (response.status === 201) {
-    return (
-      <Box marginBottom={2}>
-        <Alert severity="success">User has been created</Alert>
-      </Box>
-    );
-  } else {
-    return (
+    var response_box = (
       <Box marginBottom={2}>
         <Alert severity="error">{response.data.error}</Alert>
       </Box>
-    );
+    )
+
+    switch(response.status){
+      case 201:
+        response_box = (
+        <Box marginBottom={2}>
+          <Alert severity="success">User has been created</Alert>
+        </Box>
+        )
+        break; 
+      case 422:
+        response_box = (
+        <Box marginBottom={2}>
+          <Alert severity="error">Some fields are missing</Alert>
+        </Box>)
+    }
+    
+    return response_box
   }
 };
 
