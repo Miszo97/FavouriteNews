@@ -30,7 +30,10 @@ const LoginControl = () => {
           display: { xs: "none", md: "flex" },
         }}
       >
-        {userName}
+        <Button sx={{ my: 2, color: "white", display: "block" }}>
+          {userName}
+        </Button>
+
         <Button
           sx={{ my: 2, color: "white", display: "block" }}
           onClick={() => {
@@ -86,7 +89,12 @@ const Header = () => {
               </Button>
             </Link>
           </Box>
-          <LoginControl />
+
+          <Link href="/profile" style={{ textDecoration: "none" }}>
+            <Button sx={{ my: 1, color: "white", display: "block" }}>
+              <LoginControl />
+            </Button>
+          </Link>
         </Toolbar>
       </Container>
     </AppBar>

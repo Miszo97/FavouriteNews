@@ -8,6 +8,7 @@ import SearchSettings from "./components/SearchSettings";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import { UserProvider } from "./userContext";
+import UserProfile from "./components/UserProfile";
 
 function getAccessToken() {
   return localStorage.getItem("access_token");
@@ -36,6 +37,7 @@ function App() {
           <Container>
             <Routes>
               <Route path="/news" element={<NewsScreen />} />
+              <Route path="/profile" element={<UserProfile />} />
               <Route path="/settings" element={<SearchSettings />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
