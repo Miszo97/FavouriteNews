@@ -21,6 +21,10 @@ class UserQuery:
         user = db.query(User).filter(User.username == username).first()
         return user
 
+    def get_user_by_email(self, db: Session, email: str) -> User:
+        user = db.query(User).filter(User.email == email).first()
+        return user
+
     def set_email(self, db: Session, user_id: int, email: str) -> User:
         user = db.query(User).filter(User.id == user_id).first()
         user.email = email
@@ -44,6 +48,5 @@ class UserQuery:
         db.commit()
 
         user = db.query(User).filter(User.id == user_id).first()
-
 
         return user

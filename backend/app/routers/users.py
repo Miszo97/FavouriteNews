@@ -28,6 +28,10 @@ async def register(
         detail = {"error": "username already exists"}
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
 
+    if UserQuery().get_user_by_email(db, email):
+        detail = {"error": "email already taken"}
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
+
     new_user = User(username=username, email=email)
     new_user.hashed_password = get_password_hash(password)
     return UserQuery().create_user(db, new_user)
