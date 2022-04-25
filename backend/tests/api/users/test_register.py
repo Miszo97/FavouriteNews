@@ -57,6 +57,28 @@ def test_register_user_taken_username(client, session):
     assert len(UserQuery().get_users(session)) == 1
 
 
+def test_register_user_taken_email(client, session):
+    registration_form_1 = {
+        "username": "Mike",
+        "password": "secret",
+        "email": "mike@gmail.com",
+    }
+
+    registration_form_2 = {
+        "username": "Mikeee",
+        "password": "top_secret",
+        "email": "mike@gmail.com",
+    }
+
+    response = client.post("/users", data=registration_form_1)
+    assert response.status_code == status.HTTP_201_CREATED
+
+    response = client.post("/users", data=registration_form_2)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    assert len(UserQuery().get_users(session)) == 1
+
+
 def test_register_user_missing_required_values(client, session):
     registration_form_no_username = {"password": "secret", "email": "mike@gmail.com"}
     registration_form_no_password = {"username": "Mike", "email": "mike@gmail.com"}
