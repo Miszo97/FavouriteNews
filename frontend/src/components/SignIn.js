@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { UserContext } from ".././userContext";
 import { useContext } from "react";
 
+import { FeedbackField } from "./shared/feedbackField";
+
 function Copyright(props) {
   return (
     <Typography
@@ -48,18 +50,24 @@ function login(access_token, setAccessToken, userName, setUserName) {
 export default function SignIn() {
   const setAccessToken = useContext(UserContext).setAccessToken;
   const setUserName = useContext(UserContext).setUserName;
+  const [response, setResponse] = React.useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios.post("http://localhost:8000/token", data).then((response) => {
-      login(
-        response.data["access_token"],
-        setAccessToken,
-        data.get("username"),
-        setUserName
-      );
-    });
+    axios
+      .post("http://localhost:8000/token", data)
+      .then((response) => {
+        login(
+          response.data["access_token"],
+          setAccessToken,
+          data.get("username"),
+          setUserName
+        );
+      })
+      .catch((error) => {
+        setResponse(error.response);
+      });
   };
 
   return (
@@ -80,12 +88,15 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+
           <Box
             component="form"
             onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
+            <FeedbackField response={response} />
+
             <TextField
               margin="normal"
               required

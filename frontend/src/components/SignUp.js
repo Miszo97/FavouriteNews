@@ -5,12 +5,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+
+import { FeedbackField } from "./shared/feedbackField";
 
 function Copyright(props) {
   return (
@@ -33,36 +34,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 const axios = require("axios").default;
-
-const FeedbackField = (props) => {
-  const response = props.response;
-
-  if (response != null) {
-    var response_box = (
-      <Box marginBottom={2}>
-        <Alert severity="error">{response.data.error}</Alert>
-      </Box>
-    );
-
-    switch (response.status) {
-      case 201:
-        response_box = (
-          <Box marginBottom={2}>
-            <Alert severity="success">User has been created</Alert>
-          </Box>
-        );
-        break;
-      case 422:
-        response_box = (
-          <Box marginBottom={2}>
-            <Alert severity="error">Some fields are missing</Alert>
-          </Box>
-        );
-    }
-
-    return response_box;
-  }
-};
 
 export default function SignUp() {
   const [response, setResponse] = React.useState(null);
@@ -119,7 +90,6 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   id="email"
                   label="Email Address"
