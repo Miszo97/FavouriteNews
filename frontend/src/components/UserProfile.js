@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import SimpleFeedbackField from "./shared/SimpleFeedbackField";
 
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -18,7 +19,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import FormControl from "@mui/material/FormControl";
 import { useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
-import Alert from "@mui/material/Alert";
 
 const UserProfile = () => {
   const access_token = localStorage.getItem("access_token");
@@ -28,40 +28,7 @@ const UserProfile = () => {
     },
   };
 
-  const [field_value, setFieldValue] = useState("");
-  const handleChange = (event) => {
-    setFieldValue(event.target.value);
-  };
-
-  const [open, setOpen] = useState(false);
-  const [field_to_update, setField] = useState(null);
   const [refresh_nr, setRefresh] = useState(0);
-  const handleClickSave = () => {
-    async function updateUser() {
-      let key = field_to_update;
-      let update_data = {};
-      update_data[key] = field_value;
-
-      axios.patch("http://localhost:8000/users/me", update_data, config);
-
-      if (field_to_update == "username") {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("user_name");
-      }
-      setOpen(false);
-      setRefresh(refresh_nr + 1);
-    }
-    updateUser();
-  };
-
-  const handleClickOpen = (event) => {
-    setOpen(true);
-    setField(event);
-  };
-  const handleClickExit = () => {
-    setOpen(false);
-  };
-
   const [user, setUser] = useState({});
   useEffect(() => {
     async function get_current_user() {
@@ -71,9 +38,50 @@ const UserProfile = () => {
       );
       setUser(current_user.data);
     }
-
     get_current_user();
   }, [refresh_nr]);
+
+  const [field_value, setFieldValue] = useState("");
+  const handleChange = (event) => {
+    setFieldValue(event.target.value);
+  };
+
+  const [open, setOpen] = useState(false);
+  const [field_to_update, setField] = useState(null);
+  const [patch_response, setPatchResponse] = useState(null);
+
+  const handleClickSave = () => {
+    let key = field_to_update;
+    let update_data = {};
+    update_data[key] = field_value;
+
+    axios
+      .patch("http://localhost:8000/users/me", update_data, config)
+      .then(() => {
+        if (field_to_update === "username") {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("user_name");
+          window.location.href = "http://localhost:3000/signin";
+        } else {
+          setPatchResponse("success");
+        }
+      })
+      .catch(() => {
+        setPatchResponse("failure");
+      });
+
+    setOpen(false);
+    setRefresh(refresh_nr + 1);
+  };
+
+  const handleClickOpen = (event) => {
+    setOpen(true);
+    setField(event);
+  };
+
+  const handleClickExit = () => {
+    setOpen(false);
+  };
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -86,6 +94,8 @@ const UserProfile = () => {
       justifyContent="center"
       style={{ marginTop: "20%" }}
     >
+      <SimpleFeedbackField response={patch_response} />
+
       <Box sx={{ width: "50%", maxWidth: 360 }}>
         <List>
           <ListItem disablePadding>

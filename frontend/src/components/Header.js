@@ -91,9 +91,7 @@ const Header = () => {
           </Box>
 
           <Link href="/profile" style={{ textDecoration: "none" }}>
-            <Button sx={{ my: 1, color: "white", display: "block" }}>
-              <LoginControl />
-            </Button>
+            <LoginControl />
           </Link>
         </Toolbar>
       </Container>
