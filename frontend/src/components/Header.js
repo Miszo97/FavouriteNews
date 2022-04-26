@@ -8,7 +8,7 @@ import Link from "@mui/material/Link";
 import React, { useContext } from "react";
 import { UserContext } from ".././userContext";
 
-function logout(setAccessToken, setUserName) {
+export function logout(setAccessToken, setUserName) {
   setAccessToken(null);
   setUserName(null);
   localStorage.removeItem("access_token");

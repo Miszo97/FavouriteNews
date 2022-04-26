@@ -38,6 +38,32 @@ def test_update_user(session, authorized_client):
     assert response.json().get("hashed_password") != "plain_password"
 
 
+def test_update_user_taken_username(session, authorized_client):
+    user = user_query.get_user_by_id(session, 1)
+
+    assert user.id == 1
+    assert user.username == "active_user"
+    assert user.email == "active_user@gmail.com"
+
+    data = {"username": "active_user"}
+    response = authorized_client.patch("/users/me", json=data)
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_update_user_taken_email(session, authorized_client):
+    user = user_query.get_user_by_id(session, 1)
+
+    assert user.id == 1
+    assert user.username == "active_user"
+    assert user.email == "active_user@gmail.com"
+
+    data = {"email": "active_user@gmail.com"}
+    response = authorized_client.patch("/users/me", json=data)
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
 def test_get_users(session, authorized_client):
     create_user(session, username="John", email="John@gmail.com", id=2)
     create_user(session, username="Ave", email="Ave@gmail.com", id=3)

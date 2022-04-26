@@ -59,8 +59,20 @@ async def update_user(
     current_user: UserObject = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    update_data = new_user_object.dict(exclude_unset=True)
+    user = UserQuery().get_user_by_email_or_username(
+        db, new_user_object.email, new_user_object.username
+    )
 
+    if user:
+        if user.username is not None and user.username == new_user_object.username:
+            detail = {"error": "username already exists"}
+            return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
+
+        if user.email is not None and user.email == new_user_object.email:
+            detail = {"error": "email already taken"}
+            return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
+
+    update_data = new_user_object.dict(exclude_unset=True)
     updated_user = UserQuery().update_user(db, current_user.id, update_data)
 
     return updated_user

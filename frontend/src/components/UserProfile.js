@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import SimpleFeedbackField from "./shared/SimpleFeedbackField";
+import { useEffect, useState, useContext } from "react";
 
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -19,8 +18,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import FormControl from "@mui/material/FormControl";
 import { useTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
+import { FeedbackUpdateField } from "./shared/FeedbackUpdateField";
+
+import { UserContext } from ".././userContext";
+import { logout } from "./Header";
 
 const UserProfile = () => {
+  const setAccessToken = useContext(UserContext).setAccessToken;
+  const setUserName = useContext(UserContext).setUserName;
+
   const access_token = localStorage.getItem("access_token");
   const config = {
     headers: {
@@ -48,7 +54,7 @@ const UserProfile = () => {
 
   const [open, setOpen] = useState(false);
   const [field_to_update, setField] = useState(null);
-  const [patch_response, setPatchResponse] = useState(null);
+  const [response, setResponse] = useState(null);
 
   const handleClickSave = () => {
     let key = field_to_update;
@@ -57,21 +63,20 @@ const UserProfile = () => {
 
     axios
       .patch("http://localhost:8000/users/me", update_data, config)
-      .then(() => {
+      .then((response) => {
         if (field_to_update === "username") {
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("user_name");
+          logout(setAccessToken, setUserName);
           window.location.href = "http://localhost:3000/signin";
         } else {
-          setPatchResponse("success");
+          setResponse(response);
         }
       })
-      .catch(() => {
-        setPatchResponse("failure");
+      .catch((error) => {
+        setResponse(error.response);
       });
 
-    setOpen(false);
     setRefresh(refresh_nr + 1);
+    setOpen(false);
   };
 
   const handleClickOpen = (event) => {
@@ -94,7 +99,7 @@ const UserProfile = () => {
       justifyContent="center"
       style={{ marginTop: "20%" }}
     >
-      <SimpleFeedbackField response={patch_response} />
+      <FeedbackUpdateField response={response} field={field_to_update} />
 
       <Box sx={{ width: "50%", maxWidth: 360 }}>
         <List>
