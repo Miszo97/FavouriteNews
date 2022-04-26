@@ -8,7 +8,7 @@ import Link from "@mui/material/Link";
 import React, { useContext } from "react";
 import { UserContext } from ".././userContext";
 
-function logout(setAccessToken, setUserName) {
+export function logout(setAccessToken, setUserName) {
   setAccessToken(null);
   setUserName(null);
   localStorage.removeItem("access_token");
@@ -30,7 +30,10 @@ const LoginControl = () => {
           display: { xs: "none", md: "flex" },
         }}
       >
-        {userName}
+        <Button sx={{ my: 2, color: "white", display: "block" }}>
+          {userName}
+        </Button>
+
         <Button
           sx={{ my: 2, color: "white", display: "block" }}
           onClick={() => {
@@ -86,7 +89,10 @@ const Header = () => {
               </Button>
             </Link>
           </Box>
-          <LoginControl />
+
+          <Link href="/profile" style={{ textDecoration: "none" }}>
+            <LoginControl />
+          </Link>
         </Toolbar>
       </Container>
     </AppBar>
