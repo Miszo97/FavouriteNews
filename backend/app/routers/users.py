@@ -30,7 +30,7 @@ async def register(
         if user.username == username:
             detail = {"error": "username already exists"}
             return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
-        if user.email == email:
+        if user.email == email and user.email is not None:
             detail = {"error": "email already taken"}
             return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
 

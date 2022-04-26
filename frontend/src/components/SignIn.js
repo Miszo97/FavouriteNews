@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { UserContext } from ".././userContext";
 import { useContext } from "react";
 
-import { FeedbackField } from "./shared/feedbackField";
+import { FeedbackField } from "./shared/FeedbackField";
 
 function Copyright(props) {
   return (
@@ -26,10 +26,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Favourite News
-      </Link>{" "}
-      {new Date().getFullYear()}
+      Favourite News {new Date().getFullYear()}
       {"."}
     </Typography>
   );
