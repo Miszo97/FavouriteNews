@@ -22,7 +22,7 @@ router = APIRouter()
 async def register(
     username: str = Form(...),
     password: str = Form(...),
-    email: Optional[str] = Form(None),
+    email: str = Form(...),
     db: Session = Depends(get_db),
 ):
 
