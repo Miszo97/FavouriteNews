@@ -33,7 +33,6 @@ const NewsScreen = () => {
   function handleClick(url) {}
   return (
     <Grid
-      direction="column"
       alignItems="center"
       justifyContent="center"
       style={{ marginTop: "5%", marginBottom: "10%" }}
