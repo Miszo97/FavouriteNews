@@ -68,6 +68,20 @@ const LoginControl = () => {
   );
 };
 
+const SearchSettings = () => {
+  const accessToken = useContext(UserContext).accessToken;
+
+  if (accessToken) {
+    return (
+      <Link href="/settings">
+        <Button sx={{ my: 1, color: "white", display: "block" }}>
+          Search Settings
+        </Button>
+      </Link>
+    );
+  }
+};
+
 const Header = () => {
   return (
     <AppBar position="static" sx={{ backgroundColor: "#313C56" }}>
@@ -85,11 +99,7 @@ const Header = () => {
                 News
               </Button>
             </Link>
-            <Link href="/settings">
-              <Button sx={{ my: 1, color: "white", display: "block" }}>
-                Search Settings
-              </Button>
-            </Link>
+            <SearchSettings />
           </Box>
 
           <LoginControl />
