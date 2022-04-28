@@ -30,9 +30,11 @@ const LoginControl = () => {
           display: { xs: "none", md: "flex" },
         }}
       >
-        <Button sx={{ my: 2, color: "white", display: "block" }}>
-          {userName}
-        </Button>
+        <Link href="/profile" style={{ textDecoration: "none" }}>
+          <Button sx={{ my: 2, color: "white", display: "block" }}>
+            {userName}
+          </Button>
+        </Link>
 
         <Button
           sx={{ my: 2, color: "white", display: "block" }}
@@ -99,9 +101,8 @@ const Header = () => {
             </Link>
             <SearchSettings />
           </Box>
-          <Link href="/profile" style={{ textDecoration: "none" }}>
-            <LoginControl />
-          </Link>
+
+          <LoginControl />
         </Toolbar>
       </Container>
     </AppBar>

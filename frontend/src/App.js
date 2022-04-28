@@ -9,6 +9,7 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import { UserProvider } from "./userContext";
 import UserProfile from "./components/UserProfile";
+import Protected from "./components/Protected";
 
 function getAccessToken() {
   return localStorage.getItem("access_token");
@@ -36,9 +37,30 @@ function App() {
         <main>
           <Container>
             <Routes>
-              <Route path="/news" element={<NewsScreen />} />
-              <Route path="/profile" element={<UserProfile />} />
-              <Route path="/settings" element={<SearchSettings />} />
+              <Route
+                path="/news"
+                element={
+                  <Protected>
+                    <NewsScreen />
+                  </Protected>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <Protected>
+                    <UserProfile />
+                  </Protected>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <Protected>
+                    <SearchSettings />
+                  </Protected>
+                }
+              />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
             </Routes>
