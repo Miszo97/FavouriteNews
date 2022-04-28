@@ -4,7 +4,7 @@ from dependencies.current_user import get_current_user
 from dependencies.database_session import get_db
 from fastapi import APIRouter, Depends, Form, status
 from fastapi.responses import JSONResponse
-from models import User
+from models import User, UserSearchSettings
 from queries.user_query import UserQuery
 from queries.user_serach_settings_query import UserSearchSettingsQuery
 from schemas.user_schema import UserInput, UserObject
@@ -13,6 +13,7 @@ from services.schemas import Article
 from settings import MEDIA_STACK_API_KEY
 from sqlalchemy.orm import Session
 from utils.authentication import get_password_hash
+from utils.user import default_serach_settings
 
 router = APIRouter()
 
@@ -21,15 +22,25 @@ router = APIRouter()
 async def register(
     username: str = Form(...),
     password: str = Form(...),
-    email: Optional[str] = Form(None),
+    email: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    if UserQuery().get_user_by_username(db, username):
-        detail = {"error": "username already exists"}
-        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
+
+    user = UserQuery().get_user_by_email_or_username(db, email, username)
+    if user:
+        if user.username == username:
+            detail = {"error": "username already exists"}
+            return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
+        if user.email == email:
+            detail = {"error": "email already taken"}
+            return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
 
     new_user = User(username=username, email=email)
     new_user.hashed_password = get_password_hash(password)
+    new_user.user_settings = [
+        UserSearchSettings(**{**default_serach_settings, "user_id": new_user.id})
+    ]
+
     return UserQuery().create_user(db, new_user)
 
 
@@ -53,8 +64,20 @@ async def update_user(
     current_user: UserObject = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    update_data = new_user_object.dict(exclude_unset=True)
+    user = UserQuery().get_user_by_email_or_username(
+        db, new_user_object.email, new_user_object.username
+    )
 
+    if user:
+        if user.username is not None and user.username == new_user_object.username:
+            detail = {"error": "username already exists"}
+            return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
+
+        if user.email is not None and user.email == new_user_object.email:
+            detail = {"error": "email already taken"}
+            return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=detail)
+
+    update_data = new_user_object.dict(exclude_unset=True)
     updated_user = UserQuery().update_user(db, current_user.id, update_data)
 
     return updated_user
