@@ -38,11 +38,7 @@ const NewsScreen = () => {
       style={{ marginTop: "5%", marginBottom: "10%" }}
     >
       {news.map((article, index) => (
-        <Card
-          style={{ marginTop: "2%" }}
-          sx={{ minWidth: 275 }}
-          key={article.id}
-        >
+        <Card style={{ marginTop: "2%" }} sx={{ minWidth: 275 }} key={index}>
           <CardContent>
             <Typography variant="h5" component="div">
               {article.title}
